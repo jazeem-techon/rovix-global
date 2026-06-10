@@ -4,54 +4,8 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
-function RovixLogo() {
-  return (
-    <div className="flex items-center gap-3">
-      {/* Real logo representation in SVG */}
-      <svg
-        viewBox="0 0 100 80"
-        className="h-10 w-auto text-white"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Top Teal Arch */}
-        <path
-          d="M 25 35 C 35 15, 85 15, 85 45 C 85 68, 65 70, 58 70"
-          stroke="#4fc0b7"
-          strokeWidth="5"
-          strokeLinecap="round"
-        />
-        {/* Bottom Blue/White Arch */}
-        <path
-          d="M 68 55 C 58 75, 10 75, 10 45 C 10 32, 22 28, 32 28"
-          stroke="currentColor"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-        {/* Center Text "R" Icon */}
-        <text
-          x="48"
-          y="52"
-          textAnchor="middle"
-          fill="currentColor"
-          className="font-sans font-black tracking-tight"
-          style={{ fontSize: "28px", fontWeight: 900 }}
-        >
-          R
-        </text>
-      </svg>
-      <div className="flex flex-col">
-        <span className="text-xl font-black tracking-wider text-white flex items-center leading-none">
-          ROVIX<span className="text-[#4fc0b7] ml-0.5">GLOBAL</span>
-        </span>
-        <span className="text-[7px] font-bold tracking-tight text-white/70 leading-none mt-1 uppercase">
-          Equipments & Trading L.L.C - S.P.C
-        </span>
-      </div>
-    </div>
-  );
-}
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -82,7 +36,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2 group">
-            <RovixLogo />
+            <Image src="/logo.png" alt="Logo" width={100} height={100} />
           </a>
 
           {/* Navigation Links */}
