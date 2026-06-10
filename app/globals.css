@@ -48,14 +48,14 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1e3d73;
 
-  --primary: #1e3d73;
-  --primary-foreground: #ffffff;
+  --primary: #4fc0b7;
+  --primary-foreground: #1e3d73;
   --accent: #4fc0b7;
   --accent-foreground: #1e3d73;
-  --secondary: #e6f7f6;
-  --secondary-foreground: #1e3d73;
+  --secondary: #1e3d73;
+  --secondary-foreground: #ffffff;
 
   --destructive-foreground: var(--color-red-700);
   --info: var(--color-blue-500);
@@ -68,8 +68,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #1e3d73;
+    --foreground: #ffffff;
   }
 }
 
