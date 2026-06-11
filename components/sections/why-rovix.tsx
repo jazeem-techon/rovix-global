@@ -1,10 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useRef } from "react";
+import { useLenis } from "lenis/react";
 
 const stats = [
   { value: "15", suffix: "+", label: "Years Experience" },
@@ -14,56 +11,49 @@ const stats = [
 
 export function WhyRovix() {
   const sectionRef = useRef<HTMLElement>(null);
-  const statsRef = useRef<HTMLDivElement[]>([]);
   const lineRef = useRef<HTMLDivElement>(null);
+  const statsRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  useEffect(() => {
+  useLenis(() => {
     if (!sectionRef.current) return;
+    
+    const windowHeight = window.innerHeight;
+    const sectionRect = sectionRef.current.getBoundingClientRect();
 
-    // Progress line animation
+    // Progress line logic (start center to end center)
     if (lineRef.current) {
-      gsap.fromTo(
-        lineRef.current,
-        { scaleY: 0 },
-        {
-          scaleY: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top center",
-            end: "bottom center",
-            scrub: true,
-          },
-        }
-      );
+      const start = sectionRect.top - windowHeight / 2;
+      const end = sectionRect.bottom - windowHeight / 2;
+      const dist = end - start;
+      let progress = 0;
+      if (dist > 0) {
+        progress = -start / dist;
+      }
+      progress = Math.max(0, Math.min(1, progress));
+      lineRef.current.style.transform = `scaleY(${progress})`;
     }
 
-    // Stats massive reveal
-    statsRef.current.forEach((stat, i) => {
+    // Stats reveal logic (top 85%)
+    statsRefs.current.forEach((stat) => {
       if (!stat) return;
-      gsap.fromTo(
-        stat,
-        { y: 100, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.5,
-          ease: "expo.out",
-          scrollTrigger: {
-            trigger: stat,
-            start: "top 85%",
-          },
-        }
-      );
+      const statRect = stat.getBoundingClientRect();
+      if (statRect.top < windowHeight * 0.85) {
+        stat.style.transform = `translateY(0px)`;
+        stat.style.opacity = `1`;
+      }
     });
-  }, []);
+  });
 
   return (
     <section ref={sectionRef} className="py-32 bg-[#0a0a0a] relative z-10 px-6 text-white overflow-hidden">
       
       {/* Central Progress Line */}
       <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] bg-white/5 md:-translate-x-1/2 hidden md:block">
-        <div ref={lineRef} className="w-full h-full bg-[var(--primary)] origin-top scale-y-0" />
+        <div 
+          ref={lineRef}
+          className="w-full h-full bg-[var(--primary)] origin-top will-change-transform" 
+          style={{ transform: "scaleY(0)" }} 
+        />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -84,8 +74,9 @@ export function WhyRovix() {
             >
               <div className="w-full md:w-1/2 flex justify-center md:justify-end">
                 <div 
-                  ref={(el) => { if (el) statsRef.current[index] = el; }}
-                  className="text-[20vw] md:text-[15vw] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500"
+                  ref={(el) => { statsRefs.current[index] = el; }}
+                  className="text-[20vw] md:text-[15vw] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500 transition-all duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+                  style={{ transform: "translateY(100px)", opacity: 0 }}
                 >
                   {stat.value}<span className="text-[var(--primary)]">{stat.suffix}</span>
                 </div>
