@@ -18,8 +18,8 @@ export default function Home() {
       <Navbar />
       <>
         <Hero />
-        <WhoWeAre />
         <OurSolutions />
+        <WhoWeAre />
         <ProjectShowcase />
         <SafetySolutions />
         <CommunityDevelopment />

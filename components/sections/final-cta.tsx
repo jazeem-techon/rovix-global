@@ -47,17 +47,17 @@ export function FinalCTA() {
   };
 
   return (
-    <section ref={containerRef} className="py-48 bg-[#f5f5f5] relative z-10 flex flex-col items-center justify-center text-center px-6 min-h-[80vh] border-t border-black/10">
+    <section ref={containerRef} className="py-48 bg-slate-100 relative z-10 flex flex-col items-center justify-center text-center px-6 min-h-[80vh] border-t border-slate-200">
       
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-black/20" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-slate-300" />
 
       <div ref={textRef} className="max-w-5xl mx-auto relative z-10 space-y-12">
-        <h2 className="text-6xl md:text-8xl lg:text-[8rem] font-black text-[#1a1a1a] tracking-tighter leading-[0.9] uppercase">
+        <h2 className="text-6xl md:text-8xl lg:text-[8rem] font-black text-slate-900 tracking-tighter leading-[0.9] uppercase">
           Ready to <br />
-          <span className="text-[var(--primary)] block mt-2">Build.</span>
+          <span className="text-primary block mt-2">Build.</span>
         </h2>
         
-        <p className="text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
+        <p className="text-xl md:text-2xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">
           Partner with us to engineer the next generation of sports, safety, and community infrastructure.
         </p>
         
@@ -66,7 +66,7 @@ export function FinalCTA() {
             ref={buttonRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="group relative inline-flex items-center justify-center gap-4 w-48 h-48 rounded-full bg-[#1a1a1a] text-white text-lg font-medium transition-transform duration-300 ease-out hover:bg-[var(--primary)]"
+            className="group relative inline-flex items-center justify-center gap-4 w-48 h-48 rounded-full bg-slate-900 text-white text-lg font-medium transition-transform duration-300 ease-out hover:bg-primary shadow-xl hover:shadow-2xl cursor-pointer"
             style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
           >
             <span className="relative z-10 block transition-transform duration-300 group-hover:-translate-y-1">Start Project</span>

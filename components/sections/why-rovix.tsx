@@ -45,13 +45,13 @@ export function WhyRovix() {
   });
 
   return (
-    <section ref={sectionRef} className="py-32 bg-[#0a0a0a] relative z-10 px-6 text-white overflow-hidden">
+    <section ref={sectionRef} className="py-32 bg-slate-950 relative z-10 px-6 text-white overflow-hidden">
       
       {/* Central Progress Line */}
-      <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] bg-white/5 md:-translate-x-1/2 hidden md:block">
+      <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-[1px] bg-slate-800 md:-translate-x-1/2 hidden md:block">
         <div 
           ref={lineRef}
-          className="w-full h-full bg-[var(--primary)] origin-top will-change-transform" 
+          className="w-full h-full bg-primary origin-top will-change-transform" 
           style={{ transform: "scaleY(0)" }} 
         />
       </div>
@@ -59,10 +59,10 @@ export function WhyRovix() {
       <div className="max-w-7xl mx-auto relative z-10">
         
         <div className="mb-24 text-center">
-          <span className="text-[var(--primary)] font-mono text-sm tracking-widest uppercase mb-4 block">End-to-End Execution</span>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight">
+          <span className="text-primary font-mono text-sm tracking-widest uppercase mb-4 block">End-to-End Execution</span>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.1]">
             We don't just supply. <br/>
-            <span className="text-gray-600">We build, install, and maintain.</span>
+            <span className="text-slate-400 font-medium">We build, install, and maintain.</span>
           </h2>
         </div>
 
@@ -75,16 +75,16 @@ export function WhyRovix() {
               <div className="w-full md:w-1/2 flex justify-center md:justify-end">
                 <div 
                   ref={(el) => { statsRefs.current[index] = el; }}
-                  className="text-[20vw] md:text-[15vw] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500 transition-all duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+                  className="text-[20vw] md:text-[15vw] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-600 transition-all duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
                   style={{ transform: "translateY(100px)", opacity: 0 }}
                 >
-                  {stat.value}<span className="text-[var(--primary)]">{stat.suffix}</span>
+                  {stat.value}<span className="text-primary">{stat.suffix}</span>
                 </div>
               </div>
               
               <div className="w-full md:w-1/2 px-4 md:px-0">
-                <div className={`h-[1px] w-12 bg-[var(--primary)] mb-6 ${index % 2 !== 0 ? 'ml-auto' : ''}`} />
-                <h3 className="text-2xl md:text-3xl font-light text-gray-300 uppercase tracking-widest">{stat.label}</h3>
+                <div className={`h-[1px] w-12 bg-primary mb-6 ${index % 2 !== 0 ? 'ml-auto' : ''}`} />
+                <h3 className="text-2xl md:text-3xl font-medium text-slate-300 uppercase tracking-widest">{stat.label}</h3>
               </div>
             </div>
           ))}

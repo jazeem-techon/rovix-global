@@ -1,157 +1,112 @@
-"use client";
+"use client"
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Activity, ShieldCheck, TreePine, Dumbbell, GraduationCap, Wrench, ArrowRight } from "lucide-react";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useEffect, useRef, useState } from "react"
+import { useScroll, useMotionValueEvent, AnimatePresence, motion } from "framer-motion"
+import { TextRotate, TextRotateRef } from "@/components/ui/text-rotate"
 
 const solutions = [
   {
-    title: "Sports Infrastructure",
+    title: "PROFESSIONAL HEALTH & SAFETY EQUIPMENT",
     description: "World-class pitches, courts, and athletic tracks built to international standards.",
-    icon: Activity,
-    year: "01",
+    image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop",
   },
   {
-    title: "Outdoor Recreation",
+    title: "OUTDOOR PARK INFRASTRUCTURE & RECREATION SOLUTIONS",
     description: "Premium park infrastructure and community spaces designed for longevity.",
-    icon: TreePine,
-    year: "02",
+    image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?q=80&w=2000&auto=format&fit=crop",
   },
   {
-    title: "Safety Solutions",
+    title: "SPORTS TOOLS EQUIPMENT & ACCESSORIES",
     description: "Industrial safety products, PPE, and professional health equipment.",
-    icon: ShieldCheck,
-    year: "03",
+    image: "https://images.unsplash.com/photo-1541252260730-0412e8e2108e?q=80&w=2000&auto=format&fit=crop",
   },
   {
-    title: "Playground Equipment",
+    title: "SCHOOL PHYSICAL EDUCATION SOLUTIONS",
     description: "Safe, innovative, and developmental play areas for all ages.",
-    icon: Wrench,
-    year: "04",
+    image: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?q=80&w=2000&auto=format&fit=crop",
   },
   {
-    title: "School PE Solutions",
+    title: "GENERAL TRADING",
     description: "Comprehensive physical education equipment for educational institutions.",
-    icon: GraduationCap,
-    year: "05",
+    image: "https://images.unsplash.com/photo-1526676037777-05a232554f77?q=80&w=2000&auto=format&fit=crop",
   },
-  {
-    title: "Fitness & Training",
-    description: "High-end gym and performance training equipment.",
-    icon: Dumbbell,
-    year: "06",
-  },
-];
+]
 
 export function OurSolutions() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
-  const itemsRef = useRef<HTMLDivElement[]>([]);
+  const containerRef = useRef<HTMLElement>(null)
+  const textRotateRef = useRef<TextRotateRef>(null)
+
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  })
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const totalItems = solutions.length
+    const progressPerItem = 1 / totalItems
+
+    let newIndex = Math.floor(latest / progressPerItem)
+    newIndex = Math.max(0, Math.min(totalItems - 1, newIndex))
+
+    if (newIndex !== activeIndex) {
+      setActiveIndex(newIndex)
+    }
+  })
 
   useEffect(() => {
-    if (!sectionRef.current) return;
-
-    let ctx = gsap.context(() => {
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: "top 85%",
-          },
-        }
-      );
-
-      itemsRef.current.forEach((item, i) => {
-        if (!item) return;
-        gsap.fromTo(
-          item,
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            delay: i * 0.1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 75%",
-            },
-          }
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+    if (textRotateRef.current) textRotateRef.current.jumpTo(activeIndex)
+  }, [activeIndex])
 
   return (
-    <section ref={sectionRef} className="py-32 bg-[#fafafa] relative z-10 px-6">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* Centered Header */}
-        <div ref={titleRef} className="text-center mb-20 space-y-6">
-          <h2 className="text-4xl md:text-6xl font-bold text-[#1a1a1a] tracking-tight">
-            Our <span className="text-[var(--primary)]">Capabilities.</span>
-          </h2>
-          <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-            Bespoke solutions engineered to elevate infrastructure, safety, and performance across the region.
-          </p>
+    // Tall section to allow scrolling through all items
+    <section ref={containerRef} className="bg-slate-50 relative z-10 w-full h-[400vh]">
+
+      {/* Sticky container locks to viewport */}
+      <div className="sticky top-0 h-screen w-full flex max-w-[1400px] mx-auto overflow-hidden">
+
+        {/* LEFT SIDE: Pinned Image Centered */}
+        <div className="w-full lg:w-1/2 h-full flex justify-center items-center absolute inset-0 lg:relative z-10 pointer-events-none">
+          <div className="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-2xl overflow-hidden shadow-2xl relative pointer-events-auto bg-slate-200">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={activeIndex}
+                src={solutions[activeIndex].image}
+                alt={`Solution ${activeIndex + 1}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </AnimatePresence>
+          </div>
         </div>
 
-        {/* Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {solutions.map((solution, index) => (
-            <div
-              key={index}
-              ref={(el) => {
-                if (el) itemsRef.current[index] = el;
-              }}
-              className="group relative bg-white border border-black/5 rounded-3xl p-8 hover:shadow-xl hover:-translate-y-2 transition-all duration-500 overflow-hidden cursor-pointer"
-            >
-              {/* Background Accent */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--primary)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              {/* Giant Background Icon */}
-              <div className="absolute -top-6 -right-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500 transform group-hover:scale-110 pointer-events-none">
-                <solution.icon className="w-48 h-48" />
-              </div>
-
-              <div className="relative z-10">
-                <div className="flex justify-between items-start mb-8">
-                  <div className="w-14 h-14 bg-[#fafafa] border border-black/5 rounded-2xl flex items-center justify-center group-hover:bg-white group-hover:shadow-sm transition-all duration-500">
-                    <solution.icon className="w-6 h-6 text-gray-600 group-hover:text-[var(--primary)] transition-colors duration-500" />
-                  </div>
-                  <div className="text-sm font-mono text-gray-300 group-hover:text-[var(--primary)]/60 transition-colors duration-500">
-                    {solution.year}
-                  </div>
-                </div>
-                
-                <h3 className="text-2xl font-bold text-[#1a1a1a] mb-4 group-hover:text-[var(--primary)] transition-colors duration-500">
-                  {solution.title}
-                </h3>
-                
-                <p className="text-gray-500 leading-relaxed mb-8 min-h-[4rem]">
-                  {solution.description}
-                </p>
-                
-                <div className="flex items-center text-sm font-semibold text-[var(--primary)] opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
-                  Explore Solution <ArrowRight className="w-4 h-4 ml-2" />
-                </div>
-              </div>
-            </div>
-          ))}
+        {/* RIGHT SIDE: Pinned Rotating Text */}
+        <div className="w-full lg:w-1/2 h-full flex items-center justify-end pr-6 lg:pr-12 absolute inset-0 lg:relative z-20 pointer-events-none">
+          <div className="w-full lg:w-full pl-6 lg:pl-12 flex flex-col justify-center pointer-events-auto">
+            <span className="text-primary font-mono text-sm tracking-widest uppercase block mb-6">Core Expertise</span>
+            <TextRotate
+              ref={textRotateRef}
+              texts={solutions.map((s) => s.title)}
+              mainClassName="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 w-full flex justify-start pt-2 leading-[1.1]"
+              splitLevelClassName="overflow-hidden pb-2"
+              staggerFrom={"first"}
+              animatePresenceMode="wait"
+              loop={false}
+              auto={false}
+              staggerDuration={0.005}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ type: "spring", duration: 0.6, bounce: 0 }}
+            />
+          </div>
         </div>
 
       </div>
     </section>
-  );
+  )
 }
