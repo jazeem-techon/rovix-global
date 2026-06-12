@@ -22,14 +22,14 @@ export default function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 py-2 bg-white/75 backdrop-blur-lg border-b border-gray-200/50 shadow-sm",
+        "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 bg-white border-b border-gray-200/50 shadow-sm md:bg-white/75 md:backdrop-blur-lg",
       )}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2 group">
-            <Image src="/logo.png" alt="Logo" width={100} height={100} className="drop-shadow-sm transition-transform duration-300 group-hover:scale-105" />
+            <Image src="/logo.png" alt="Logo" width={120} height={120} className="h-auto w-24 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105 md:w-[120px]" />
           </a>
 
           {/* Navigation Links */}
@@ -68,7 +68,7 @@ export default function Navbar() {
       {/* Mobile Drawer */}
       <div
         className={cn(
-          "fixed inset-0 top-[72px] z-40 w-full bg-white/95 backdrop-blur-xl md:hidden transition-transform duration-300 ease-in-out border-t border-gray-200/50",
+          "fixed inset-0 top-[72px] z-40 w-full bg-white md:hidden transition-transform duration-300 ease-in-out border-t border-gray-200/50",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >

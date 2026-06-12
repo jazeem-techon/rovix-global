@@ -6,14 +6,14 @@ import { useEffect, useRef, useState } from "react";
 import { useLenis } from "lenis/react";
 
 export default function Hero() {
-  const [frame, setFrame] = useState(1);
+  const [frame, setFrame] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     // Preload images
-    for (let i = 1; i <= 180; i++) {
+    for (let i = 0; i <= 239; i++) {
       const img = new Image();
-      img.src = `/scroll/ezgif-frame-${i.toString().padStart(3, '0')}.jpg`;
+      img.src = `/scroll/frame_${i.toString().padStart(6, '0')}.jpg`;
     }
   }, []);
 
@@ -29,17 +29,17 @@ export default function Hero() {
       progress = -scrollStart / scrollDist;
     }
     progress = Math.max(0, Math.min(1, progress));
-    
-    const nextFrame = Math.min(180, Math.max(1, Math.floor(progress * 179) + 1));
+
+    const nextFrame = Math.min(239, Math.max(0, Math.round(progress * 239)));
     setFrame(nextFrame);
   });
 
   return (
     <section ref={sectionRef} className="relative h-[400vh] w-full">
-      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden bg-black">
-        
+      <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden bg-black">
+
         {/* Grid Lines Overlay */}
-        <div className="absolute inset-0 z-10 size-full pointer-events-none">
+        {/* <div className="absolute inset-0 z-10 size-full pointer-events-none">
           <div className="grid w-full grid-cols-12 divide-x divide-white/20">
             <div className="col-span-1 h-screen" />
             <div className="col-span-3 h-screen" />
@@ -47,38 +47,39 @@ export default function Hero() {
             <div className="col-span-3 h-screen" />
             <div className="col-span-1 h-screen" />
           </div>
-        </div>
+        </div> */}
 
         {/* 3D Sequence Background */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src={`/scroll/ezgif-frame-${frame.toString().padStart(3, '0')}.jpg`} 
-            alt="Hero 3D Background" 
-            className="absolute inset-0 size-full object-cover will-change-[content]" 
+          <img
+            src={`/scroll/frame_${frame.toString().padStart(6, '0')}.jpg`}
+            alt="Hero 3D Background"
+            className="absolute inset-0 size-full object-cover will-change-[content]"
           />
           <div className="absolute inset-0 bg-black/40" />
         </div>
 
         {/* Content */}
-        <div className="relative z-20 max-w-5xl px-6 text-center text-white">
-          <h1 className="text-center font-kanturmuy font-normal text-5xl text-white tracking-tight md:text-6xl lg:text-8xl">
-            Sustainable Solutions for a Better Future
-          </h1>
+        <div className="relative z-20 w-full px-6 md:px-12 lg:px-24 text-left text-white">
+          <div className="max-w-2xl">
+            <h1 className="font-kanturmuy font-normal text-4xl text-white tracking-tight md:text-5xl lg:text-6xl xl:text-7xl">
+              Building spaces where <br className="hidden md:block" /> play comes naturally.
+            </h1>
 
-          <p className="mx-auto mb-8 max-w-2xl text-center font-light text-lg text-white/90 md:text-xl">
-            Empowering businesses and communities to thrive in a low-carbon world
-            through tailored clean energy solutions.
-          </p>
+            <p className="mt-6 mb-8 max-w-xl font-light text-lg text-white/90 md:text-xl">
+              We design, supply, and install premium playground equipment and sports infrastructure, creating safe environments for communities to thrive.
+            </p>
 
-          <Button className="group not-disabled:inset-shadow-none mx-auto flex cursor-pointer items-center justify-center gap-0 rounded-full border-none bg-transparent px-0 py-5 font-normal shadow-none hover:bg-transparent [:hover,[data-pressed]]:bg-transparent">
-            <span className="rounded-full bg-primary px-6 py-3 text-black duration-500 ease-in-out group-hover:bg-secondary group-hover:text-white group-hover:transition-colors">
-              Start a Project
-            </span>
-            <div className="relative flex h-fit cursor-pointer items-center overflow-hidden rounded-full bg-primary p-5 text-black duration-500 ease-in-out group-hover:bg-secondary group-hover:text-white group-hover:transition-colors">
-              <ArrowUpRight className="absolute h-5 w-5 -translate-x-1/2 transition-all duration-500 ease-in-out group-hover:translate-x-10" />
-              <ArrowUpRight className="absolute h-5 w-5 -translate-x-10 transition-all duration-500 ease-in-out group-hover:-translate-x-1/2" />
-            </div>
-          </Button>
+            <Button className="group not-disabled:inset-shadow-none flex cursor-pointer items-center justify-center gap-0 w-fit rounded-full border-none bg-transparent px-0 py-5 font-normal shadow-none hover:bg-transparent [:hover,[data-pressed]]:bg-transparent">
+              <span className="rounded-full bg-primary px-6 py-3 text-black duration-500 ease-in-out group-hover:bg-secondary group-hover:text-white group-hover:transition-colors">
+                Start a Project
+              </span>
+              <div className="relative flex h-fit cursor-pointer items-center overflow-hidden rounded-full bg-primary p-5 text-black duration-500 ease-in-out group-hover:bg-secondary group-hover:text-white group-hover:transition-colors">
+                <ArrowUpRight className="absolute h-5 w-5 -translate-x-1/2 transition-all duration-500 ease-in-out group-hover:translate-x-10" />
+                <ArrowUpRight className="absolute h-5 w-5 -translate-x-10 transition-all duration-500 ease-in-out group-hover:-translate-x-1/2" />
+              </div>
+            </Button>
+          </div>
         </div>
       </div>
     </section>
