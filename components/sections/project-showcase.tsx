@@ -49,7 +49,7 @@ export function ProjectShowcase() {
     const rect = section.getBoundingClientRect();
     const scrollStart = rect.top;
     const scrollDist = rect.height - window.innerHeight;
-    
+
     let progressVal = 0;
     if (scrollDist > 0) {
       progressVal = -scrollStart / scrollDist;
@@ -65,7 +65,7 @@ export function ProjectShowcase() {
   return (
     <section ref={sectionRef} className="bg-slate-950 h-[300vh] relative">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center text-white">
-        
+
         {/* Header Area */}
         <div className="absolute top-0 left-0 w-full p-8 md:p-12 z-20 flex justify-between items-end border-b border-white/10">
           <div>

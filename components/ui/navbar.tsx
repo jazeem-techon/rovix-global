@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 
 export default function Navbar() {
@@ -28,20 +29,20 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
+          <Link href="/" className="flex items-center gap-2 group">
             <Image src="/logo.png" alt="Logo" width={120} height={120} className="h-auto w-24 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105 md:w-[120px]" />
-          </a>
+          </Link>
 
           {/* Navigation Links */}
           <nav className="hidden md:flex items-center gap-8">
             {["Solutions", "Sectors", "About", "Trading", "Contact"].map((item) => (
-              <a
+              <Link
                 key={item}
-                href={`#${item.toLowerCase()}`}
+                href={`/${item.toLowerCase()}`}
                 className="text-sm font-medium text-gray-700 hover:text-[var(--primary)] transition-colors"
               >
                 {item}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -74,14 +75,14 @@ export default function Navbar() {
       >
         <nav className="flex flex-col gap-6 p-8 h-full">
           {["Solutions", "Sectors", "About", "Trading", "Contact"].map((item) => (
-            <a
+            <Link
               key={item}
-              href={`#${item.toLowerCase()}`}
+              href={`/${item.toLowerCase()}`}
               onClick={() => setIsOpen(false)}
               className="text-xl font-medium text-gray-800 hover:text-[var(--primary)] transition-colors"
             >
               {item}
-            </a>
+            </Link>
           ))}
           <div className="mt-8 border-t border-gray-200/50 pt-8">
             <Button

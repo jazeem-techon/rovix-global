@@ -48,7 +48,7 @@ export function FinalCTA() {
 
   return (
     <section ref={containerRef} className="py-48 bg-slate-100 relative z-10 flex flex-col items-center justify-center text-center px-6 min-h-[80vh] border-t border-slate-200">
-      
+
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-slate-300" />
 
       <div ref={textRef} className="max-w-5xl mx-auto relative z-10 space-y-12">
@@ -56,13 +56,13 @@ export function FinalCTA() {
           Ready to <br />
           <span className="text-primary block mt-2">Build.</span>
         </h2>
-        
+
         <p className="text-xl md:text-2xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">
           Partner with us to engineer the next generation of sports, safety, and community infrastructure.
         </p>
-        
+
         <div className="pt-16 flex justify-center">
-          <button 
+          <button
             ref={buttonRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -74,7 +74,7 @@ export function FinalCTA() {
           </button>
         </div>
       </div>
-      
+
     </section>
   );
 }
