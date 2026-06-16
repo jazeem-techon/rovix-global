@@ -2,23 +2,30 @@
 
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useLenis } from "lenis/react";
 
 export default function Hero() {
-  const [frame, setFrame] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    // Preload images
-    for (let i = 0; i <= 239; i++) {
-      const img = new Image();
-      img.src = `/scroll/frame_${i.toString().padStart(6, '0')}.jpg`;
-    }
+    // Preload images without blocking the main thread significantly
+    // Loading in chunks or just letting the browser cache them
+    const preloadImages = () => {
+      for (let i = 0; i <= 239; i++) {
+        const img = new Image();
+        img.src = `/scroll/frame_${i.toString().padStart(6, '0')}.jpg`;
+      }
+    };
+    
+    // Defer preloading slightly to prioritize initial render
+    setTimeout(preloadImages, 500);
   }, []);
 
   useLenis(() => {
-    if (!sectionRef.current) return;
+    if (!sectionRef.current || !imgRef.current) return;
+    
     const section = sectionRef.current;
     const rect = section.getBoundingClientRect();
     const scrollStart = rect.top;
@@ -31,28 +38,20 @@ export default function Hero() {
     progress = Math.max(0, Math.min(1, progress));
 
     const nextFrame = Math.min(239, Math.max(0, Math.round(progress * 239)));
-    setFrame(nextFrame);
+    
+    // Update the src directly on the DOM node to avoid React state re-renders (which cause lag)
+    imgRef.current.src = `/scroll/frame_${nextFrame.toString().padStart(6, '0')}.jpg`;
   });
 
   return (
     <section ref={sectionRef} className="relative h-[400vh] w-full">
       <div className="sticky top-0 flex h-screen w-full items-center overflow-hidden bg-black">
 
-        {/* Grid Lines Overlay */}
-        {/* <div className="absolute inset-0 z-10 size-full pointer-events-none">
-          <div className="grid w-full grid-cols-12 divide-x divide-white/20">
-            <div className="col-span-1 h-screen" />
-            <div className="col-span-3 h-screen" />
-            <div className="col-span-4 h-screen" />
-            <div className="col-span-3 h-screen" />
-            <div className="col-span-1 h-screen" />
-          </div>
-        </div> */}
-
         {/* 3D Sequence Background */}
         <div className="absolute inset-0 z-0">
           <img
-            src={`/scroll/frame_${frame.toString().padStart(6, '0')}.jpg`}
+            ref={imgRef}
+            src="/scroll/frame_000000.jpg"
             alt="Hero 3D Background"
             className="absolute inset-0 size-full object-cover will-change-[content]"
           />
